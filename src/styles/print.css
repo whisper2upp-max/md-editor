@@ -1,0 +1,27 @@
+@media print {
+  .topbar,
+  .sidebar,
+  .toolbar,
+  .tabbar,
+  .code-host,
+  .toast-container,
+  .context-menu {
+    display: none !important;
+  }
+  .app-shell,
+  .body,
+  .editor-area,
+  .milkdown-host {
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+  .milkdown .ProseMirror {
+    padding: 0 !important;
+  }
+  .md-comment {
+    border: 1px solid #999 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

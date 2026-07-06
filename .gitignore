@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build output / generated launcher (distribute via GitHub Releases instead)
+dist/
+release/
+MD Editor.html
+
+# Internal process docs (design specs, plans) — not for publishing
+docs/superpowers/
+
+# Internal working docs (handoff) — not for publishing
+工作交接/
+
+# OS / editor
+.DS_Store
+*.log
+.vscode/
+.idea/
