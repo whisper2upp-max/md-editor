@@ -6,6 +6,8 @@ A **WYSIWYG** Markdown editor with instant preview and one-click switch to sourc
 
 > Author: Wesley Yan · License: MIT
 
+![MD Editor screenshot](./screenshots/preview.png)
+
 ## Features
 
 - **Two editing modes** — inline WYSIWYG and raw Markdown source, switch anytime.
@@ -38,24 +40,24 @@ A **WYSIWYG** Markdown editor with instant preview and one-click switch to sourc
 
 | File | What it is | Distribute? |
 | --- | --- | --- |
-| **`MD Editor.html`** (project root) | The **finished, self-contained launcher** (created by `npm run build`). | ✅ **Send this one file** |
+| **`MD-Editor.html`** (project root) | The **finished, self-contained launcher** (created by `npm run build`). | ✅ **Send this one file** |
 | `index.html` (project root) | The **dev entry** (loads `/src/main.ts`, needs `npm run dev`). Double-clicking it shows a guidance page. | ❌ Never |
-| `dist/index.html` | Raw Vite build output (same content as `MD Editor.html`). | Optional |
+| `dist/index.html` | Raw Vite build output (same content as `MD-Editor.html`). | Optional |
 
 ## Getting Started (development)
 
 ```bash
 npm install
 npm run dev      # local preview at http://localhost:5173
-npm run build    # produces "MD Editor.html" at the project root
+npm run build    # produces "MD-Editor.html" at the project root
 npm test         # run unit tests
 ```
 
 ## Distribute to users
 
-1. Run `npm run build` → it generates **`MD Editor.html`** at the project root.
+1. Run `npm run build` → it generates **`MD-Editor.html`** at the project root.
 2. Send that **single file** to users. They open it with **Chrome or Edge** — no install, no internet.
-3. For public download, attach `MD Editor.html` to a **GitHub Release** (recommended over committing the binary).
+3. For public download, attach `MD-Editor.html` to a **GitHub Release** (recommended over committing the binary).
 
 ### Browser compatibility
 - Full features (open folder / file, save to disk) rely on the **File System Access API** → use **Chrome / Edge**.
@@ -115,24 +117,24 @@ This is an **independent open-source project** and is **not affiliated with, end
 
 | 文件 | 说明 | 是否分发 |
 | --- | --- | --- |
-| **`MD Editor.html`**（项目根目录） | **打包好的自包含启动器**（由 `npm run build` 生成）。 | ✅ **就发这一个文件** |
+| **`MD-Editor.html`**（项目根目录） | **打包好的自包含启动器**（由 `npm run build` 生成）。 | ✅ **就发这一个文件** |
 | `index.html`（项目根目录） | **开发入口**（引用 `/src/main.ts`，需 `npm run dev`）。直接双击会显示一个引导提示页。 | ❌ 不要发 |
-| `dist/index.html` | Vite 原始构建产物（内容与 `MD Editor.html` 相同）。 | 可选 |
+| `dist/index.html` | Vite 原始构建产物（内容与 `MD-Editor.html` 相同）。 | 可选 |
 
 ### 快速开始（开发）
 
 ```bash
 npm install
 npm run dev      # 本地预览 http://localhost:5173
-npm run build    # 在项目根目录生成 “MD Editor.html”
+npm run build    # 在项目根目录生成 “MD-Editor.html”
 npm test         # 运行单元测试
 ```
 
 ### 发布给用户
 
-1. 执行 `npm run build` → 在项目根目录生成 **`MD Editor.html`**。
+1. 执行 `npm run build` → 在项目根目录生成 **`MD-Editor.html`**。
 2. 把这**一个文件**发给用户，用户用 **Chrome 或 Edge** 打开即可，无需安装或联网。
-3. 若要公开供人下载，建议把 `MD Editor.html` 作为附件放到 **GitHub Release**（比把成品文件提交进仓库更规范）。
+3. 若要公开供人下载，建议把 `MD-Editor.html` 作为附件放到 **GitHub Release**（比把成品文件提交进仓库更规范）。
 
 #### 浏览器兼容
 - 完整功能（打开文件夹 / 文件、保存到本地）依赖 **File System Access API** → 需 **Chrome / Edge**。

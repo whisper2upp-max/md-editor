@@ -4,7 +4,7 @@ node_modules/
 # Build output / generated launcher (distribute via GitHub Releases instead)
 dist/
 release/
-MD Editor.html
+MD-Editor.html
 
 # Internal process docs (design specs, plans) — not for publishing
 docs/superpowers/

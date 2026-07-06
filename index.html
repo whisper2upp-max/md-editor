@@ -11,8 +11,8 @@
       // The root index.html is the DEV entry (loads /src/main.ts via the Vite dev
       // server). Double-clicking it as a file:// page cannot load the TS module, so
       // it would render blank. If #app is still empty shortly after load, show
-      // guidance pointing to the real distributable build (MD Editor.html).
-      // In the built MD Editor.html the app fills #app immediately, so this never fires.
+      // guidance pointing to the real distributable build (MD-Editor.html).
+      // In the built MD-Editor.html the app fills #app immediately, so this never fires.
       window.addEventListener('load', function () {
         setTimeout(function () {
           var app = document.getElementById('app');
@@ -21,8 +21,8 @@
               '<div style="max-width:640px;margin:80px auto;font-family:-apple-system,Segoe UI,Microsoft YaHei,sans-serif;line-height:1.8;color:#1f2328">' +
               '<h1 style="margin:0 0 12px">请打开正确的文件</h1>' +
               '<p>你打开的是<strong>开发入口文件</strong>，它需要开发服务器才能运行，直接双击会空白。</p>' +
-              '<p>请改为打开打包好的单文件：<code style="background:#f6f8fa;padding:2px 6px;border-radius:4px">MD Editor.html</code>（这就是要发给用户的成品）。</p>' +
-              '<p style="color:#6b7280">若还没有该文件，先在项目目录执行 <code style="background:#f6f8fa;padding:2px 6px;border-radius:4px">npm run build</code>，然后打开生成的 <code style="background:#f6f8fa;padding:2px 6px;border-radius:4px">MD Editor.html</code>。</p>' +
+              '<p>请改为打开打包好的单文件：<code style="background:#f6f8fa;padding:2px 6px;border-radius:4px">MD-Editor.html</code>（这就是要发给用户的成品）。</p>' +
+              '<p style="color:#6b7280">若还没有该文件，先在项目目录执行 <code style="background:#f6f8fa;padding:2px 6px;border-radius:4px">npm run build</code>，然后打开生成的 <code style="background:#f6f8fa;padding:2px 6px;border-radius:4px">MD-Editor.html</code>。</p>' +
               '</div>';
           }
         }, 500);

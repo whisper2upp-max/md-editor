@@ -1,9 +1,9 @@
 // Post-build: copy the self-contained bundle to a friendly, ready-to-share
-// launcher file at the project root: "MD Editor.html".
+// launcher file at the project root: "MD-Editor.html".
 import { copyFileSync, existsSync, statSync } from 'node:fs'
 
 const src = 'dist/index.html'
-const out = 'MD Editor.html'
+const out = 'MD-Editor.html'
 
 if (!existsSync(src)) {
   console.error('✗ 未找到 dist/index.html，请先执行 vite build')
