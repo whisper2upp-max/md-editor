@@ -172,6 +172,7 @@ class App {
   private proseSearch!: ProseSearchController
   private tableToolbar!: TableToolbar
   private tableToolbarTimer: number | null = null
+  private hoveredTable: HTMLElement | null = null
   private settings: Settings = loadSettings()
 
   async init(root: HTMLElement): Promise<void> {
@@ -223,8 +224,19 @@ class App {
     })
 
     this.tableToolbar = new TableToolbar((op) => {
+      // Make sure the table op targets the hovered table (place caret inside it
+      // if the current selection isn't already there), then run the command.
+      if (this.hoveredTable) this.editor.ensureCaretInTable(this.hoveredTable)
       this.editor.tableOp(op)
-      setTimeout(() => this.updateTableToolbar(), 0)
+      setTimeout(() => {
+        const view = this.editor.getView()
+        const el = view.domAtPos(view.state.selection.from).node as HTMLElement | null
+        const tbl = (el?.nodeType === 3 ? el.parentElement : el)?.closest?.('table') as HTMLElement | null
+        if (tbl) {
+          this.hoveredTable = tbl
+          this.tableToolbar.showFor(tbl)
+        }
+      }, 0)
     })
 
     const first = createDoc({ name: 'Welcome.md', content: WELCOME })
@@ -806,7 +818,7 @@ class App {
       this.milkdownHost.hidden = true
       this.codeHost.hidden = false
       this.modeBtn.textContent = t('mode.toPreview')
-      this.tableToolbar.hide()
+      this.hideTableToolbar()
       this.code.focus()
     } else {
       doc.content = this.code.getValue()
@@ -826,7 +838,7 @@ class App {
     this.milkdownHost.hidden = mode === 'code'
     this.codeHost.hidden = mode === 'wysiwyg'
     this.modeBtn.textContent = mode === 'code' ? t('mode.toPreview') : t('mode.toSource')
-    if (mode === 'code') this.tableToolbar.hide()
+    if (mode === 'code') this.hideTableToolbar()
   }
 
   // --- docs / tabs ---
@@ -857,7 +869,7 @@ class App {
     this.renderTabs()
     this.fileTree.setActive(doc.path)
     this.refreshPanels()
-    this.tableToolbar.hide()
+    this.hideTableToolbar()
   }
 
   /**
@@ -1199,24 +1211,62 @@ class App {
   }
 
   private setupTableToolbar(): void {
-    const onInteract = () => this.updateTableToolbar()
-    this.milkdownHost.addEventListener('mouseup', onInteract)
-    this.milkdownHost.addEventListener('keyup', onInteract)
-    this.milkdownHost.addEventListener('click', onInteract)
-    this.milkdownHost.addEventListener('scroll', () => this.updateTableToolbar(), true)
-    document.addEventListener('selectionchange', () => {
-      if (this.tableToolbarTimer) clearTimeout(this.tableToolbarTimer)
-      this.tableToolbarTimer = window.setTimeout(() => this.updateTableToolbar(), 80)
+    const host = this.milkdownHost
+    const clearHide = () => {
+      if (this.tableToolbarTimer) {
+        clearTimeout(this.tableToolbarTimer)
+        this.tableToolbarTimer = null
+      }
+    }
+    const scheduleHide = () => {
+      clearHide()
+      this.tableToolbarTimer = window.setTimeout(() => {
+        this.hoveredTable = null
+        this.tableToolbar.hide()
+      }, 200)
+    }
+
+    host.addEventListener('mousemove', (e) => {
+      if (this.active?.mode !== 'wysiwyg') return
+      const target = e.target as HTMLElement
+      const cell = target.closest(
+        '.milkdown-table-block table td, .milkdown-table-block table th'
+      ) as HTMLElement | null
+      const table = cell ? (cell.closest('table') as HTMLElement | null) : null
+      if (table) {
+        clearHide()
+        this.hoveredTable = table
+        this.tableToolbar.showFor(table)
+      } else if (this.tableToolbar.isVisible()) {
+        scheduleHide()
+      }
     })
-    window.addEventListener('resize', () => this.updateTableToolbar())
+    host.addEventListener('mouseleave', scheduleHide)
+
+    // Keep it visible while the pointer is over the toolbar itself.
+    this.tableToolbar.el.addEventListener('mouseenter', clearHide)
+    this.tableToolbar.el.addEventListener('mouseleave', scheduleHide)
+
+    // Reposition to the hovered table on scroll; hide if it scrolled away.
+    host.addEventListener(
+      'scroll',
+      () => {
+        if (this.hoveredTable && this.tableToolbar.isVisible()) {
+          this.tableToolbar.showFor(this.hoveredTable)
+        }
+      },
+      true
+    )
+    window.addEventListener('resize', () => {
+      if (this.hoveredTable && this.tableToolbar.isVisible()) {
+        this.tableToolbar.showFor(this.hoveredTable)
+      }
+    })
   }
 
-  private updateTableToolbar(): void {
-    if (this.active?.mode !== 'wysiwyg') {
-      this.tableToolbar.hide()
-      return
-    }
-    this.tableToolbar.update(this.editor.getView())
+  private hideTableToolbar(): void {
+    this.hoveredTable = null
+    this.tableToolbar.hide()
   }
 
   private setupDragDrop(root: HTMLElement): void {

@@ -1,7 +1,7 @@
 {
   "name": "md-editor",
   "private": true,
-  "version": "0.5.1",
+  "version": "0.5.2",
   "type": "module",
   "description": "A WYSIWYG Markdown editor with comment navigation, packaged as a single self-contained HTML file.",
   "author": "Wesley Yan",

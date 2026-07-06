@@ -1,22 +1,4 @@
-import type { EditorView } from '@milkdown/kit/prose/view'
 import type { TableOp } from '../editor/editor'
-
-function currentTableEl(view: EditorView): HTMLElement | null {
-  const sel = view.state.selection
-  const pos = sel.from
-  try {
-    const at = view.domAtPos(pos)
-    let node: Node | null = at.node
-    if (node && node.nodeType === Node.TEXT_NODE) node = node.parentElement
-    let el = node as HTMLElement | null
-    if (el && !view.dom.contains(el)) el = null
-    const table = el ? el.closest('table') : null
-    if (table && view.dom.contains(table)) return table as HTMLElement
-  } catch {
-    /* ignore */
-  }
-  return null
-}
 
 const BUTTONS: { op: TableOp; label: string; title: string }[] = [
   { op: 'rowBefore', label: '↑行', title: '上方插入行' },
@@ -28,7 +10,7 @@ const BUTTONS: { op: TableOp; label: string; title: string }[] = [
 ]
 
 export class TableToolbar {
-  private el: HTMLElement
+  readonly el: HTMLElement
   private onOp: (op: TableOp) => void
 
   constructor(onOp: (op: TableOp) => void) {
@@ -52,9 +34,8 @@ export class TableToolbar {
     document.body.appendChild(this.el)
   }
 
-  update(view: EditorView): void {
-    const table = currentTableEl(view)
-    if (!table) return this.hide()
+  /** Show the toolbar positioned above (or below) the given table element. */
+  showFor(table: HTMLElement): void {
     const rect = table.getBoundingClientRect()
     if (rect.width === 0 && rect.height === 0) return this.hide()
     this.el.hidden = false
@@ -64,6 +45,10 @@ export class TableToolbar {
     top = Math.max(46, Math.min(top, window.innerHeight - h - 8))
     this.el.style.left = `${Math.max(6, Math.min(rect.left, window.innerWidth - 240))}px`
     this.el.style.top = `${top}px`
+  }
+
+  isVisible(): boolean {
+    return !this.el.hidden
   }
 
   hide(): void {

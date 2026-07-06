@@ -626,6 +626,7 @@ button { font-family: inherit; }
   box-shadow: var(--shadow-2);
   padding: 4px;
 }
+.table-toolbar[hidden] { display: none !important; }
 .tt-btn {
   border: 1px solid transparent;
   background: transparent;

@@ -63,6 +63,7 @@ export interface EditorHandle {
   insertMarkdownAt: (from: number, to: number, md: string) => void
   caretAtCoords: (x: number, y: number) => void
   tableOp: (op: TableOp) => void
+  ensureCaretInTable: (tableEl: HTMLElement) => void
   undo: () => void
   redo: () => void
   copyPlainText: () => Promise<void>
@@ -165,6 +166,23 @@ export async function createEditor(opts: CreateEditorOptions): Promise<EditorHan
     runProse(cmd)
   }
 
+  const ensureCaretInTable = (tableEl: HTMLElement) => {
+    action((ctx) => {
+      const view = ctx.get(editorViewCtx)
+      const sel = view.state.selection
+      const selNode = view.domAtPos(sel.from).node as Node | null
+      const selEl = selNode && selNode.nodeType === Node.TEXT_NODE ? selNode.parentElement : (selNode as HTMLElement | null)
+      if (selEl && tableEl.contains(selEl)) return // caret already inside this table
+      try {
+        const pos = view.posAtDOM(tableEl, 0)
+        const $p = view.state.doc.resolve(Math.max(1, Math.min(pos + 1, view.state.doc.content.size)))
+        view.dispatch(view.state.tr.setSelection(TextSelection.near($p, 1)))
+      } catch {
+        /* couldn't resolve a caret position in the table */
+      }
+    })
+  }
+
   return {
     crepe,
     getMarkdown: () => crepe.getMarkdown(),
@@ -215,6 +233,7 @@ export async function createEditor(opts: CreateEditorOptions): Promise<EditorHan
         }
       }),
     tableOp,
+    ensureCaretInTable,
     undo: () => runProse(undo),
     redo: () => runProse(redo),
     copyPlainText: async () => {
