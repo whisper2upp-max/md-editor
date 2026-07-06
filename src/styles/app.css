@@ -415,6 +415,15 @@ button { font-family: inherit; }
   background: var(--hover) !important;
 }
 
+/* divider (horizontal rule) — recolor the line to the theme green,
+   keeping Crepe's thin-line geometry (padding + background-clip:content-box) */
+.milkdown .ProseMirror hr {
+  background-color: var(--accent) !important;
+}
+.milkdown .ProseMirror hr.ProseMirror-selectednode {
+  background-color: color-mix(in srgb, var(--accent), transparent 20%) !important;
+}
+
 /* dark mode code editor */
 /* code editor surface follows the theme (both light & dark) */
 .code-host .cm-editor,

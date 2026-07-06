@@ -17,6 +17,7 @@ pre{background:#f6f8fa;padding:14px;border-radius:8px;overflow:auto}
 code{background:#f6f8fa;padding:2px 5px;border-radius:4px;font-family:ui-monospace,Menlo,Consolas,monospace}
 pre code{background:none;padding:0}
 blockquote{border-left:4px solid #d0d7de;margin:0;padding-left:16px;color:#57606a}
+hr{border:none;height:3px;background:#5a9e78;border-radius:3px;opacity:.9}
 table{border-collapse:collapse}th,td{border:1px solid #c4d2c7;padding:6px 12px}
 table th{background:#d3e6d8;font-weight:600}
 table tr:nth-of-type(even) td{background:#eef3ec}
@@ -63,6 +64,7 @@ th,td{border-color:#3d4b57}
 table th{background:#2b3a30 !important}
 table tr:nth-of-type(even) td{background:#1a2230}
 table tr:nth-of-type(odd) td{background:#212a3a}
+hr{background:#5cb98c !important}
 a{color:#4c8bf5}
 `
 
