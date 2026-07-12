@@ -1197,6 +1197,16 @@ class App {
   }
 
   private setupCommentEditing(): void {
+    // Single click on a comment mark → locate & highlight it in the sidebar.
+    this.milkdownHost.addEventListener('click', (e) => {
+      const target = (e.target as HTMLElement).closest('.md-comment') as HTMLElement | null
+      if (!target) return
+      const view = this.editor.getView()
+      const pos = findCommentPos(view, target)
+      if (pos == null) return
+      this.locateCommentInSidebar(pos)
+    })
+    // Double click → edit the comment in place.
     this.milkdownHost.addEventListener('dblclick', (e) => {
       const target = (e.target as HTMLElement).closest('.md-comment') as HTMLElement | null
       if (!target) return
@@ -1208,6 +1218,15 @@ class App {
       if (!node || node.type.name !== 'comment') return
       this.showCommentEditPopup(target, node.attrs.kind as CommentKind, node.attrs.value as string, pos)
     })
+  }
+
+  private locateCommentInSidebar(pos: number): void {
+    // Rebuild the comment list from the current doc so positions are fresh.
+    this.refreshPanels()
+    const idx = this.comments.findIndex((c) => c.pos === pos)
+    if (idx < 0) return
+    this.showPanel('comments')
+    this.commentsNav.locate(idx)
   }
 
   private setupTableToolbar(): void {

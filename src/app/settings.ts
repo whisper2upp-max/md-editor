@@ -14,9 +14,10 @@ export interface Settings {
 
 const KEY = 'md-editor:settings'
 
-export const APP_VERSION = '0.5.2'
+export const APP_VERSION = '0.5.3'
 
 export const CHANGELOG: { version: string; date: string; items: string[] }[] = [
+  { version: '0.5.3', date: '2026-07-06', items: ['修复表格内编辑时看不到光标', '点击原文批注可定位并高亮侧边栏对应批注'] },
   { version: '0.5.2', date: '2026-07-06', items: ['修复表格工具栏鼠标移开后不消失', '表格工具栏改为悬停显示'] },
   { version: '0.5.1', date: '2026-07-06', items: ['sulav 主题（暖色 + 绿色）', '表格斑马纹 + 表头独立配色', '分割线改用主题绿色', 'Codex 代码审查修复（5 项）'] },
   { version: '0.5.0', date: '2026-07-05', items: ['新增上菜单栏（文件/编辑/段落/格式/显示）', '查找替换 (Ctrl+F)', '表格浮动工具栏', '设置窗口与帮助', '中英文切换'] },

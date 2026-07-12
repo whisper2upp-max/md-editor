@@ -49,6 +49,18 @@ export class CommentsNavPanel {
     this.editingKey = key
   }
 
+  /** Scroll to the nav item for `key` and briefly highlight it. */
+  locate(key: number): void {
+    const el = this.el.querySelector(`.cnav-item[data-key="${key}"]`) as HTMLElement | null
+    if (!el) return
+    el.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    el.classList.remove('cnav-item--flash')
+    // force reflow so the animation restarts on repeated clicks
+    void el.offsetWidth
+    el.classList.add('cnav-item--flash')
+    window.setTimeout(() => el.classList.remove('cnav-item--flash'), 1700)
+  }
+
   get activeEditKey(): number | null {
     return this.editingKey
   }
@@ -77,6 +89,7 @@ export class CommentsNavPanel {
       for (const it of list) {
         const row = document.createElement('div')
         row.className = `cnav-item${this.editingKey === it.key ? ' cnav-item--editing' : ''}`
+        row.dataset.key = String(it.key)
 
         if (this.editingKey === it.key) {
           const header = document.createElement('div')

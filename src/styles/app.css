@@ -329,6 +329,14 @@ button { font-family: inherit; }
   transition: border-color 0.12s, transform 0.06s;
 }
 .cnav-item:hover { border-color: var(--bd); }
+.cnav-item--flash {
+  animation: cnav-flash 1.6s ease;
+  border-color: var(--accent) !important;
+}
+@keyframes cnav-flash {
+  0%, 30% { background: color-mix(in srgb, var(--accent) 22%, var(--bg)); box-shadow: inset 3px 0 0 0 var(--accent); }
+  100% { background: var(--bg); box-shadow: var(--shadow-1); }
+}
 .cnav-group--html .cnav-item { border-left: 4px solid var(--comment-html); }
 .cnav-group--tmpl .cnav-item { border-left: 4px solid var(--comment-tmpl); }
 .cnav-item--editing { flex-direction: column; align-items: stretch; gap: 6px; }
@@ -398,6 +406,21 @@ button { font-family: inherit; }
 .milkdown-host { height: 100%; overflow: auto; }
 .code-host { height: 100%; overflow: hidden; }
 .milkdown { height: 100%; }
+
+/* Make the (virtual) caret clearly visible — Crepe defaults it to the faint
+   outline color, which is nearly invisible over light table cells. */
+.milkdown .ProseMirror-focused {
+  --prosemirror-virtual-cursor-color: var(--crepe-color-on-background) !important;
+}
+.milkdown .prosemirror-virtual-cursor {
+  border-left-width: 2px;
+}
+/* Inside table cells the virtual cursor is NOT rendered, and the native caret
+   is hidden globally — so re-enable the native caret there. */
+.milkdown .milkdown-table-block td,
+.milkdown .milkdown-table-block th {
+  caret-color: var(--crepe-color-on-background) !important;
+}
 
 /* table styling (preview mode): header distinct + zebra data rows, using UI tokens */
 .milkdown .milkdown-table-block table th,
